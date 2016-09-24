@@ -7,6 +7,9 @@
   },
   "dependencies": {
     "react": "15.3.2",
-    "react-native": "0.34.0"
+    "react-native": "0.34.0",
+    "react-native-button": "^1.7.0",
+    "react-native-maps": "^0.8.2",
+    "react-native-router-flux": "^3.35.0"
   }
 }
