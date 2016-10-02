@@ -7,10 +7,11 @@ import {
   Text,
 } from 'react-native';
 
+import { Actions } from 'react-native-router-flux';
 import Button from 'react-native-button';
 import Emoji from 'react-native-emoji';
 import MapView from 'react-native-maps';
-import { Actions } from 'react-native-router-flux';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default class MapComponent extends Component {
 
@@ -26,7 +27,9 @@ export default class MapComponent extends Component {
         const position = JSON.stringify(pos);
         this.setState({position});
       },
-      (error) => alert(JSON.stringify(error)), // TODO (@rageandqq): Better error handling?
+      // TODO (@rageandqq): Better error handling?
+      // Will want to clear the spinner.
+      (error) => alert(JSON.stringify(error)),
       {timeout: 20000, maximumAge: 1000},
     );
     this.watchID = navigator.geolocation.watchPosition(pos => {
@@ -43,13 +46,17 @@ export default class MapComponent extends Component {
     const {
       position,
     } = this.state;
-    let latitude = 37.78825; // default is SF because that's what
-    let longitude = -122.4324;
-    if (position != null) {
-      const { coords } = JSON.parse(position);
-      latitude = coords.latitude;
-      longitude = coords.longitude;
+
+    if (position == null) {
+      return (
+        <View style={styles.container}>
+          <Spinner visible={true}/>
+        </View>
+      );
     }
+
+    const { coords } = JSON.parse(position);
+    const { latitude, longitude } = coords;
     return (
       <View style={styles.container}>
         <MapView
