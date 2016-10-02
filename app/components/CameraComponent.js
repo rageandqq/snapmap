@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import {
   Alert,
   Dimensions,
@@ -8,9 +9,11 @@ import {
   View,
 } from 'react-native';
 
+import Button from 'react-native-button';
 import Camera from 'react-native-camera';
 import Emoji from 'react-native-emoji';
-import Button from 'react-native-button';
+
+import EditComponent from './EditComponent';
 
 export default class CameraComponent extends Component {
 
@@ -39,29 +42,12 @@ export default class CameraComponent extends Component {
   }
 
   render() {
-    const { image } = this.state;
-    if (image != null) {
+    if (this.state.image != null) {
       return (
-        <View
-          style={styles.container}>
-          <Image
-            style={styles.camera}
-            source={{uri: image}}/>
-          <View
-            style={styles.buttonGroupContainer}>
-            <Button
-              containerStyle={styles.buttonAcceptContainer}
-              style={styles.button}>
-              Accept
-            </Button>
-            <Button
-              containerStyle={styles.buttonRejectContainer}
-              onPress = {()=>{ this.setState({image: null})}}
-              style={styles.button}>
-              Retake
-            </Button>
-          </View>
-        </View>
+        <EditComponent
+          baseImage={this.state.image}
+          onReject={() => { this.setState({image: null}); }}
+        />
       );
     }
     return (
@@ -117,23 +103,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'deepskyblue',
     ...buttonStyles,
   },
-  buttonGroupContainer: {
-    flexDirection: 'row',
-    position: 'absolute',
-    bottom: 20,
-    right: 30,
-    marginBottom: 50,
-    marginRight: 50,
-    ...buttonStyles,
-  },
-  buttonAcceptContainer: {
-    flex: 1,
-    backgroundColor: 'limegreen',
-    ...buttonStyles,
-  },
-  buttonRejectContainer: {
-    flex: 1,
-    backgroundColor: 'red',
-    ...buttonStyles,
-  }
 });
