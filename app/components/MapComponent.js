@@ -34,7 +34,7 @@ export default class MapComponent extends Component {
   }
 
   _handlePress(): void {
-    // TODO (@rageandqq): Perform action when camera button pressed
+    Actions.camera();
   }
 
   render() {
@@ -57,8 +57,7 @@ export default class MapComponent extends Component {
            longitude,
            latitudeDelta: 0.0922,
            longitudeDelta: 0.0421,
-          }}
-        >
+          }}>
          <MapView.Marker
             coordinate={{latitude, longitude}}
             title={'My Location'}
@@ -66,12 +65,11 @@ export default class MapComponent extends Component {
           />
         </MapView>
         <Button
-            containerStyle={styles.buttonContainer}
-            style={styles.button}
-            onPress={this._handlePress.bind(this)}
-          >
-          Open Camera
-          </Button>
+          containerStyle={styles.buttonContainer}
+          style={styles.button}
+          onPress={this._handlePress.bind(this)}>
+            Open Camera
+        </Button>
      </View>
    );
   }
