@@ -72,7 +72,7 @@ export default class MapComponent extends Component {
           <MapView.Circle
             center={{latitude, longitude}}
             radius={RADIUS}
-            fillColor="rgba(0, 0, 100, 0.1)"
+            fillColor="rgba(0, 0, 100, 0.03)"
             strokeColor="rgba(0,0,0,0.3)"
           />
          <MapView.Marker
