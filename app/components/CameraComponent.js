@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import {
   Alert,
   Dimensions,
@@ -8,36 +9,20 @@ import {
   View,
 } from 'react-native';
 
+import Button from 'react-native-button';
 import Camera from 'react-native-camera';
 import Emoji from 'react-native-emoji';
-import Button from 'react-native-button';
+
+import SketchComponent from './SketchComponent';
 
 export default class CameraComponent extends Component {
 
   state = {
     image: null,
-    encodedSignature: null,
   };
 
   constructor(props) {
     super(props);
-    this.onReset = this._onReset.bind(this);
-    this.onSave = this._onSave.bind(this);
-    this.onUpdate = this._onUpdate.bind(this);
-  }
-
-  _onReset() {
-    console.log("Drawing cleared!");
-  }
-
-  _onUpdate(base64Image) {
-    this.setState({ encodedSignature: base64Image });
-  }
-
-  _onSave()
-    this.sketch.saveImage(this.state.encodedSignature)
-      .then((data) => console.log(data))
-      .catch((error) => console.log(error));
   }
 
   _takePicture = () => {
@@ -62,35 +47,12 @@ export default class CameraComponent extends Component {
   }
 
   render() {
-    const { image } = this.state;
-    if (image != null) {
+    if (this.state.image != null) {
       return (
-        <View
-          style={styles.container}>
-          <Sketch
-            onReset={}
-            onUpdate={}
-            ref={sketch => { this.sketch = sketch; }}
-            style={ styles.sketch }
-          />
-          <Image
-            style={styles.camera}
-            source={{uri: image}}/>
-          <View
-            style={styles.buttonGroupContainer}>
-            <Button
-              containerStyle={styles.buttonAcceptContainer}
-              style={styles.button}>
-              Accept
-            </Button>
-            <Button
-              containerStyle={styles.buttonRejectContainer}
-              onPress = {()=>{ this.setState({image: null})}}
-              style={styles.button}>
-              Retake
-            </Button>
-          </View>
-        </View>
+        <SketchComponent
+          baseImage={this.state.image}
+          onReject={() => { this.setState({image: null}); }}
+        />
       );
     }
     return (
@@ -127,9 +89,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  sketch: {
-    height: Dimensions.get('window').height,
-  },
   camera: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -149,23 +108,4 @@ const styles = StyleSheet.create({
     backgroundColor: 'deepskyblue',
     ...buttonStyles,
   },
-  buttonGroupContainer: {
-    flexDirection: 'row',
-    position: 'absolute',
-    bottom: 20,
-    right: 30,
-    marginBottom: 50,
-    marginRight: 50,
-    ...buttonStyles,
-  },
-  buttonAcceptContainer: {
-    flex: 1,
-    backgroundColor: 'limegreen',
-    ...buttonStyles,
-  },
-  buttonRejectContainer: {
-    flex: 1,
-    backgroundColor: 'red',
-    ...buttonStyles,
-  }
 });

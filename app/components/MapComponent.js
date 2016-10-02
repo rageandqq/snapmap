@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -6,9 +7,9 @@ import {
   Text,
 } from 'react-native';
 
-import MapView from 'react-native-maps';
 import Button from 'react-native-button';
 import Emoji from 'react-native-emoji';
+import MapView from 'react-native-maps';
 import { Actions } from 'react-native-router-flux';
 
 export default class MapComponent extends Component {
