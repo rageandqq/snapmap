@@ -11,13 +11,8 @@ import Button from 'react-native-button';
 
 export default class EditComponent extends Component {
 
-  state = {
-    encodedSignature: null,
-  };
-
   constructor(props) {
       super(props);
-      this.sketch = null;
   }
 
   _onAccept = () => {
