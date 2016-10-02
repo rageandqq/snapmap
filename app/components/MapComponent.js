@@ -86,25 +86,25 @@ export default class MapComponent extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
+const absoluteFill = {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
+};
+
+const styles = StyleSheet.create({
+  container: {
     justifyContent: 'flex-end',
     alignItems: 'center',
+    ...absoluteFill,
   },
   cameraButtonText: {
     fontSize: 50,
   },
   map: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    ...absoluteFill,
   },
   button: {
     color: 'white',
