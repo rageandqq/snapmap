@@ -15,8 +15,7 @@ export default class CameraComponent extends Component {
     image: null,
   };
 
-  _takePicture() {
-    const setState = this.setState.bind(this);
+  _takePicture = () => {
     this.camera.capture()
       .then((data) => {
         this.setState({image: data.path});
@@ -28,7 +27,7 @@ export default class CameraComponent extends Component {
           [
             {
               text: 'OK',
-              onPress: () => { setState({image: null}); }
+              onPress: () => { this.setState({image: null}); }
             },
           ],
         );
@@ -45,20 +44,20 @@ export default class CameraComponent extends Component {
           <Image
             style={styles.camera}
             source={{uri: image}}/>
-            <View
-              style={styles.buttonGroupContainer}>
-              <Button
-                containerStyle={styles.buttonAcceptContainer}
-                style={styles.button}>
-                Accept
-              </Button>
-              <Button
-                containerStyle={styles.buttonRejectContainer}
-                onPress = {()=>{ this.setState({image: null})}}
-                style={styles.button}>
-                Retake
-              </Button>
-            </View>
+          <View
+            style={styles.buttonGroupContainer}>
+            <Button
+              containerStyle={styles.buttonAcceptContainer}
+              style={styles.button}>
+              Accept
+            </Button>
+            <Button
+              containerStyle={styles.buttonRejectContainer}
+              onPress = {()=>{ this.setState({image: null})}}
+              style={styles.button}>
+              Retake
+            </Button>
+          </View>
         </View>
       );
     }
@@ -74,7 +73,7 @@ export default class CameraComponent extends Component {
           <Button
             containerStyle={styles.buttonInfoContainer}
             style={styles.button}
-            onPress={this._takePicture.bind(this)}>
+            onPress={this._takePicture}>
             Capture
           </Button>
         </Camera>
