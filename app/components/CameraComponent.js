@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Alert,
   Dimensions,
   Image,
   StyleSheet,
@@ -15,13 +16,24 @@ export default class CameraComponent extends Component {
   };
 
   _takePicture() {
+    const setState = this.setState.bind(this);
     this.camera.capture()
       .then((data) => {
-        console.log(data.path);
-        console.log(typeof(data.path));
         this.setState({image: data.path});
-      }) // TODO(@rageandqq): Process image
-      .catch(err => console.error(err));
+      })
+      .catch(err => {
+        Alert.alert(
+          'An error occurred.',
+          err,
+          [
+            {
+              text: 'OK',
+              onPress: () => { setState({image: null}); }
+            },
+          ],
+        );
+        console.error(err);
+      });
   }
 
   render() {
