@@ -16,9 +16,32 @@ export default class CameraComponent extends Component {
 
   state = {
     image: null,
+    encodedSignature: null,
   };
 
+  constructor(props) {
+    super(props);
+    this.onReset = this._onReset.bind(this);
+    this.onSave = this._onSave.bind(this);
+    this.onUpdate = this._onUpdate.bind(this);
+  }
+
+  _onReset() {
+    console.log("Drawing cleared!");
+  }
+
+  _onUpdate(base64Image) {
+    this.setState({ encodedSignature: base64Image });
+  }
+
+  _onSave()
+    this.sketch.saveImage(this.state.encodedSignature)
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+  }
+
   _takePicture = () => {
+    const setState = this.setState.bind(this);
     this.camera.capture()
       .then((data) => {
         this.setState({image: data.path});
@@ -44,6 +67,12 @@ export default class CameraComponent extends Component {
       return (
         <View
           style={styles.container}>
+          <Sketch
+            onReset={}
+            onUpdate={}
+            ref={sketch => { this.sketch = sketch; }}
+            style={ styles.sketch }
+          />
           <Image
             style={styles.camera}
             source={{uri: image}}/>
@@ -97,6 +126,9 @@ const buttonStyles = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  sketch: {
+    height: Dimensions.get('window').height,
   },
   camera: {
     flex: 1,
