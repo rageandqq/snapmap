@@ -31,7 +31,7 @@ export default class EditComponent extends Component {
           style={styles.baseImage}
           source={{uri: this.props.baseImage}}/>
         <View
-          style={styles.buttonGroupContainer}>
+          style={styles.groupContainer}>
           <Button
             containerStyle={styles.buttonAcceptContainer}
             style={styles.button}
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     flex: 1,
   },
-  buttonGroupContainer: {
+  groupContainer: {
     flexDirection: 'row',
     position: 'absolute',
     bottom: 20,
