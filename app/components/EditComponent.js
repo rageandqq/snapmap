@@ -13,6 +13,18 @@ import ModalPicker from 'react-native-modal-picker'
 
 const IMAGE_EXPIRATION_LIMIT = 24; // hour
 
+const data = [{
+  key: 0,
+  section: true,
+  label: 'Select Photo Expiration',
+}];
+for (let i = 1; i <= IMAGE_EXPIRATION_LIMIT; i++) {
+  data.push({
+    key: i,
+    label: `${i}h`, // Number of seconds
+  });
+}
+
 export default class EditComponent extends Component {
 
   // Initial State
@@ -25,17 +37,6 @@ export default class EditComponent extends Component {
   }
 
   render() {
-    const data = [{
-      key: 0,
-      section: true,
-      label: 'Select Photo Expiration',
-    }];
-    for (let i = 1; i <= IMAGE_EXPIRATION_LIMIT; i++) {
-      data.push({
-        key: i,
-        label: `${i}h`, // Number of seconds
-      });
-    }
     return (
       <View
         style={styles.container}>
