@@ -21,6 +21,7 @@ export default class EditComponent extends Component {
   }
 
   _onAccept = () => {
+    // TODO (rageandqq): something useful
   }
 
   render() {

@@ -21,12 +21,7 @@ export default class CameraComponent extends Component {
     image: null,
   };
 
-  constructor(props) {
-    super(props);
-  }
-
   _takePicture = () => {
-    const setState = this.setState.bind(this);
     this.camera.capture()
       .then((data) => {
         this.setState({image: data.path});
