@@ -13,7 +13,7 @@ import Button from 'react-native-button';
 import Camera from 'react-native-camera';
 import Emoji from 'react-native-emoji';
 
-import SketchComponent from './SketchComponent';
+import EditComponent from './EditComponent';
 
 export default class CameraComponent extends Component {
 
@@ -49,7 +49,7 @@ export default class CameraComponent extends Component {
   render() {
     if (this.state.image != null) {
       return (
-        <SketchComponent
+        <EditComponent
           baseImage={this.state.image}
           onReject={() => { this.setState({image: null}); }}
         />

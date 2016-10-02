@@ -8,9 +8,8 @@ import {
 } from 'react-native';
 
 import Button from 'react-native-button';
-import Sketch from 'react-native-sketch';
 
-export default class SketchComponent extends Component {
+export default class EditComponent extends Component {
 
   state = {
     encodedSignature: null,
@@ -21,18 +20,7 @@ export default class SketchComponent extends Component {
       this.sketch = null;
   }
 
-  _onReset = () => {
-    console.log("Drawing cleared!");
-  }
-
-  _onUpdate = base64Image => {
-    this.setState({ encodedSignature: base64Image });
-  }
-
-  _onSave = () => {
-    this.sketch.saveImage(this.state.encodedSignature)
-      .then((data) => alert(data.toString()))
-      .catch((error) => console.log(error));
+  _onAccept = () => {
   }
 
   render() {
@@ -42,20 +30,12 @@ export default class SketchComponent extends Component {
         <Image
           style={styles.baseImage}
           source={{uri: this.props.baseImage}}/>
-        <Sketch
-          fillColor="#f5f5f5"
-          strokeColor="#111111"
-          strokeThickness={2}
-          onReset={this._onReset}
-          onUpdate={this._onUpdate}
-          ref={sketch => { this.sketch = sketch; }}
-          style={styles.sketch}/>
         <View
           style={styles.buttonGroupContainer}>
           <Button
             containerStyle={styles.buttonAcceptContainer}
             style={styles.button}
-            onPress={this._onSave}>
+            onPress={this._onAccept}>
             Accept
           </Button>
           <Button
@@ -84,9 +64,6 @@ const styles = StyleSheet.create({
   baseImage: {
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
-  },
-  sketch: {
-    height: 200,
   },
   button: {
     color: 'white',
