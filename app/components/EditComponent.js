@@ -5,12 +5,10 @@ import {
   Image,
   Picker,
   StyleSheet,
-  Text,
   View,
 } from 'react-native';
 
 import Button from 'react-native-button';
-import Emoji from 'react-native-emoji';
 import ModalPicker from 'react-native-modal-picker'
 
 const IMAGE_EXPIRATION_LIMIT = 24; // hour
