@@ -8,6 +8,7 @@ import {
 
 import MapView from 'react-native-maps';
 import Button from 'react-native-button';
+import Emoji from 'react-native-emoji';
 import { Actions } from 'react-native-router-flux';
 
 export default class MapComponent extends Component {
@@ -68,7 +69,9 @@ export default class MapComponent extends Component {
           containerStyle={styles.buttonContainer}
           style={styles.button}
           onPress={this._handlePress.bind(this)}>
-            Open Camera
+          <Text style={styles.cameraButtonText}>
+            <Emoji name="camera"/>
+          </Text>
         </Button>
      </View>
    );
@@ -85,6 +88,9 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
+  cameraButtonText: {
+    fontSize: 50,
+  },
   map: {
     position: 'absolute',
     top: 0,
@@ -98,11 +104,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonContainer: {
+    backgroundColor: 'deepskyblue',
     padding: 10,
-    margin: 10,
-    height: 45,
+    margin: 20,
     overflow: 'hidden',
     borderRadius: 10,
-    backgroundColor: 'deepskyblue',
   },
 });

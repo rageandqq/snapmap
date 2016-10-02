@@ -4,9 +4,12 @@ import {
   Dimensions,
   Image,
   StyleSheet,
+  Text,
   View,
 } from 'react-native';
+
 import Camera from 'react-native-camera';
+import Emoji from 'react-native-emoji';
 import Button from 'react-native-button';
 
 export default class CameraComponent extends Component {
@@ -74,7 +77,9 @@ export default class CameraComponent extends Component {
             containerStyle={styles.buttonInfoContainer}
             style={styles.button}
             onPress={this._takePicture}>
-            Capture
+            <Text style={styles.cameraButtonText}>
+              <Emoji name="camera_with_flash"/>
+            </Text>
           </Button>
         </Camera>
       </View>
@@ -104,6 +109,9 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     flex: 1,
+  },
+  cameraButtonText: {
+    fontSize: 50,
   },
   buttonInfoContainer: {
     backgroundColor: 'deepskyblue',
