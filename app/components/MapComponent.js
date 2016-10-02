@@ -13,6 +13,8 @@ import Emoji from 'react-native-emoji';
 import MapView from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
 
+const RADIUS = 500;
+
 export default class MapComponent extends Component {
 
   state = {
@@ -64,9 +66,15 @@ export default class MapComponent extends Component {
           region={{
            latitude,
            longitude,
-           latitudeDelta: 0.0922,
-           longitudeDelta: 0.0421,
+           latitudeDelta: 0.0150,
+           longitudeDelta: 0.0150,
           }}>
+          <MapView.Circle
+            center={{latitude, longitude}}
+            radius={RADIUS}
+            fillColor="rgba(0, 0, 100, 0.1)"
+            strokeColor="rgba(0,0,0,0.3)"
+          />
          <MapView.Marker
             coordinate={{latitude, longitude}}
             title={'My Location'}
