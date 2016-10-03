@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import {
   AppRegistry,
-  Navigator,
   StyleSheet,
   View,
   Text,
@@ -84,12 +83,6 @@ export default class MapComponent extends Component {
     Actions.camera();
   }
 
-  _viewPhotoPress(): void {
-    const temp = '03-10-2016'
-    const photoURI = 'https://i.imgur.com/VNKVrML.png'
-    Actions.photoViewer({title: 'Expires at ' + temp, baseURI:photoURI});
-  }
-
   render() {
     const {
       position,
@@ -133,14 +126,6 @@ export default class MapComponent extends Component {
           onPress={this._handlePress.bind(this)}>
           <Text style={styles.cameraButtonText}>
             <Emoji name="camera"/>
-          </Text>
-        </Button>
-        <Button
-          containerStyle={styles.buttonContainer}
-          style={styles.button}
-          onPress={this._viewPhotoPress.bind(this)}>
-          <Text style={styles.cameraButtonText}>
-            <Emoji name="frame_with_picture"/>
           </Text>
         </Button>
      </View>
