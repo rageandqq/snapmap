@@ -80,7 +80,7 @@ export default class MapComponent extends Component {
   }
 
   _handlePress(): void {
-    Actions.camera();
+    Actions.camera({userPosition: this.position});
   }
 
   render() {

@@ -54,6 +54,7 @@ export default class CameraComponent extends Component {
         <EditComponent
           baseImage={this.state.image}
           onReject={() => { this.setState({image: null}); }}
+          userPosition={this.props.userPosition}
         />
       );
     }

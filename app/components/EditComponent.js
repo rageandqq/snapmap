@@ -8,9 +8,11 @@ import {
   View,
 } from 'react-native';
 
+import { Actions } from 'react-native-router-flux';
 import Button from 'react-native-button';
 import DataManager from '../data/DataManager';
 import ModalPicker from 'react-native-modal-picker'
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const IMAGE_EXPIRATION_LIMIT = 24; // hour
 
@@ -31,11 +33,29 @@ export default class EditComponent extends Component {
   // Initial State
   state = {
     expiryTime: 12,
+    busy: false,
   };
 
+  _switchToMap() {
+    Actions.pop();
+  }
+
   _onAccept = () => {
-    // TODO (rageandqq): something useful
-    DataManager.postNewPhoto(this.props.baseImage, 37.785834, -122.406417);
+    this.setState({busy: true});
+    DataManager.postNewPhoto(
+      this.props.baseImage,
+      this.props.userPosition.coords.latitude,
+      this.props.userPosition.coords.longitude,
+      this.state.expiryTime,
+    ).then(() => {
+      this.setState({busy: false});
+      this._switchToMap();
+    })
+    .catch(error => {
+      this.setState({busy: false});
+      alert(JSON.stringify(error));
+      this._switchToMap();
+    });
   }
 
   render() {
@@ -45,6 +65,9 @@ export default class EditComponent extends Component {
         <Image
           style={styles.baseImage}
           source={{uri: this.props.baseImage}}/>
+        <View style={styles.container}>
+          <Spinner visible={this.state.busy}/>
+        </View>
         <View
           style={styles.groupContainer}>
           <ModalPicker
@@ -88,6 +111,15 @@ const buttonContainerStyles = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  spinnerContainer: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   baseImage: {
     height: Dimensions.get('window').height,
