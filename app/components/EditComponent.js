@@ -3,18 +3,35 @@ import React, { Component } from 'react';
 import {
   Dimensions,
   Image,
+  Picker,
   StyleSheet,
   View,
 } from 'react-native';
 
 import Button from 'react-native-button';
 import DataManager from '../data/DataManager';
+import ModalPicker from 'react-native-modal-picker'
+
+const IMAGE_EXPIRATION_LIMIT = 24; // hour
+
+const data = [{
+  key: 0,
+  section: true,
+  label: 'Select Photo Expiration',
+}];
+for (let i = 1; i <= IMAGE_EXPIRATION_LIMIT; i++) {
+  data.push({
+    key: i,
+    label: `${i}h`, // Number of seconds
+  });
+}
 
 export default class EditComponent extends Component {
 
-  constructor(props) {
-      super(props);
-  }
+  // Initial State
+  state = {
+    expiryTime: 12,
+  };
 
   _onAccept = () => {
     // TODO (rageandqq): something useful
@@ -31,6 +48,13 @@ export default class EditComponent extends Component {
           source={{uri: this.props.baseImage}}/>
         <View
           style={styles.groupContainer}>
+          <ModalPicker
+            style={styles.mdalPickerContainer}
+            selectStyle={styles.modalPicker}
+            selectTextStyle={styles.button}
+            data={data}
+            initValue={`${this.state.expiryTime}h`}
+            onChange={option => { this.setState({expiryTime: option.key}); }}/>
           <Button
             containerStyle={styles.buttonAcceptContainer}
             style={styles.button}
@@ -39,9 +63,9 @@ export default class EditComponent extends Component {
           </Button>
           <Button
             containerStyle={styles.buttonRejectContainer}
-            onPress={this.props.onReject}
-            style={styles.button}>
-            Retake
+            style={styles.button}
+            onPress={this.props.onReject}>
+            Reject
           </Button>
         </View>
       </View>
@@ -50,10 +74,16 @@ export default class EditComponent extends Component {
 }
 
 const buttonStyles = {
-  padding: 10,
-  margin: 20,
+  margin: 10,
   overflow: 'hidden',
   borderRadius: 10,
+  borderColor: 'white',
+};
+
+const buttonContainerStyles = {
+  flexDirection: 'column',
+  justifyContent: 'center',
+  ...buttonStyles,
 };
 
 const styles = StyleSheet.create({
@@ -66,26 +96,29 @@ const styles = StyleSheet.create({
   },
   button: {
     color: 'white',
-    fontSize: 20,
-    flex: 1,
+    fontSize: 15,
   },
   groupContainer: {
     flexDirection: 'row',
     position: 'absolute',
     bottom: 20,
-    right: 30,
-    marginBottom: 50,
-    marginRight: 50,
+    right: 15,
+    left: 15,
     ...buttonStyles,
   },
   buttonAcceptContainer: {
-    flex: 1,
+    flex: 2,
     backgroundColor: 'limegreen',
-    ...buttonStyles,
+    ...buttonContainerStyles,
   },
   buttonRejectContainer: {
-    flex: 1,
+    flex: 2,
     backgroundColor: 'red',
+    ...buttonContainerStyles,
+  },
+  mdalPickerContainer: {
+    flex: 1,
+    backgroundColor: 'deepskyblue',
     ...buttonStyles,
   },
 });

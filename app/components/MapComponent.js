@@ -7,13 +7,16 @@ import {
   Text,
 } from 'react-native';
 
+import { Actions } from 'react-native-router-flux';
 import Button from 'react-native-button';
 import Emoji from 'react-native-emoji';
 import MapView from 'react-native-maps';
-import { Actions } from 'react-native-router-flux';
 import DataManager from '../data/DataManager';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const REFRESH_INTERVAL = 30000; // 30 seconds
+
+const RADIUS = 500;
 
 export default class MapComponent extends Component {
 
@@ -35,7 +38,9 @@ export default class MapComponent extends Component {
         this.position = position;
         this._initializeScanner();
       },
-      (error) => alert(JSON.stringify(error)), // TODO (@rageandqq): Better error handling?
+      // TODO (@rageandqq): Better error handling?
+      // Will want to clear the spinner.
+      (error) => alert(JSON.stringify(error)),
       {timeout: 20000, maximumAge: 1000},
     );
     this.watchID = navigator.geolocation.watchPosition(pos => {
@@ -85,13 +90,17 @@ export default class MapComponent extends Component {
     const {
       position,
     } = this.state;
-    let latitude = 37.78825; // default is SF because that's what
-    let longitude = -122.4324;
-    if (position != null) {
-      const { coords } = JSON.parse(position);
-      latitude = coords.latitude;
-      longitude = coords.longitude;
+
+    if (position == null) {
+      return (
+        <View style={styles.container}>
+          <Spinner visible={true}/>
+        </View>
+      );
     }
+
+    const { coords } = JSON.parse(position);
+    const { latitude, longitude } = coords;
     return (
       <View style={styles.container}>
         <MapView
@@ -99,9 +108,15 @@ export default class MapComponent extends Component {
           region={{
            latitude,
            longitude,
-           latitudeDelta: 0.0922,
-           longitudeDelta: 0.0421,
+           latitudeDelta: 0.0150,
+           longitudeDelta: 0.0150,
           }}>
+          <MapView.Circle
+            center={{latitude, longitude}}
+            radius={RADIUS}
+            fillColor="rgba(0, 0, 100, 0.03)"
+            strokeColor="rgba(0,0,0,0.3)"
+          />
          <MapView.Marker
             coordinate={{latitude, longitude}}
             title={'My Location'}
@@ -121,25 +136,25 @@ export default class MapComponent extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
+const absoluteFill = {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
+};
+
+const styles = StyleSheet.create({
+  container: {
     justifyContent: 'flex-end',
     alignItems: 'center',
+    ...absoluteFill,
   },
   cameraButtonText: {
     fontSize: 50,
   },
   map: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    ...absoluteFill,
   },
   button: {
     color: 'white',

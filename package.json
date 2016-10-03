@@ -14,7 +14,9 @@
     "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
     "react-native-emoji": "^1.2.0",
     "react-native-fetch-blob": "^0.9.6",
+    "react-native-loading-spinner-overlay": "^0.3.0",
     "react-native-maps": "^0.8.2",
+    "react-native-modal-picker": "0.0.16",
     "react-native-router-flux": "^3.35.0"
   }
 }
