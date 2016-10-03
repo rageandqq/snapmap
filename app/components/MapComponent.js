@@ -22,7 +22,7 @@ export default class MapComponent extends Component {
 
   state = {
     position: null,
-    photos: {},
+    photos: [],
   };
 
   watchID: ?number = null;
