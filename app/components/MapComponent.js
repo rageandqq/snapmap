@@ -14,9 +14,9 @@ import MapView from 'react-native-maps';
 import DataManager from '../data/DataManager';
 import Spinner from 'react-native-loading-spinner-overlay';
 
+const RADIUS = 500; // metres(?)
 const REFRESH_INTERVAL = 30000; // 30 seconds
-
-const RADIUS = 500;
+const MAP_DELTA = 0.0150;
 
 export default class MapComponent extends Component {
 
@@ -31,10 +31,8 @@ export default class MapComponent extends Component {
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
-      pos => {
-        const position = JSON.stringify(pos);
+      position => {
         this.setState({position});
-
         this.position = position;
         this._initializeScanner();
       },
@@ -43,10 +41,8 @@ export default class MapComponent extends Component {
       (error) => alert(JSON.stringify(error)),
       {timeout: 20000, maximumAge: 1000},
     );
-    this.watchID = navigator.geolocation.watchPosition(pos => {
-      const position = JSON.stringify(pos);
+    this.watchID = navigator.geolocation.watchPosition(position => {
       this.setState({position});
-
       this.position = position;
       this._initializeScanner();
     });
@@ -72,7 +68,7 @@ export default class MapComponent extends Component {
       console.warn('Tried to scan nearby area for photos, but position is null');
       return;
     }
-    const { coords } = JSON.parse(this.position);
+    const { coords } = this.position;
     const { latitude, longitude } = coords;
     DataManager.getNearbyPhotos(latitude, longitude).then((photos) => {
       this.setState({
@@ -99,7 +95,7 @@ export default class MapComponent extends Component {
       );
     }
 
-    const { coords } = JSON.parse(position);
+    const { coords } = position;
     const { latitude, longitude } = coords;
     return (
       <View style={styles.container}>
@@ -108,8 +104,8 @@ export default class MapComponent extends Component {
           region={{
            latitude,
            longitude,
-           latitudeDelta: 0.0150,
-           longitudeDelta: 0.0150,
+           latitudeDelta: MAP_DELTA,
+           longitudeDelta: MAP_DELTA,
           }}>
           <MapView.Circle
             center={{latitude, longitude}}
