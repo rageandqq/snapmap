@@ -78,7 +78,7 @@ export default class MapComponent extends Component {
       this.setState({
         photos,
       });
-      console.log('Setting state.photos', photos);
+      // console.log('Setting state.photos', photos);
     });
   }
 
