@@ -25,6 +25,8 @@ export default class MapComponent extends Component {
   state = {
     position: null,
     photos: [],
+    latitudeDelta: MAP_DELTA,
+    longitudeDelta: MAP_DELTA,
   };
 
   watchID: ?number = null;
@@ -88,6 +90,8 @@ export default class MapComponent extends Component {
   render() {
     const {
       position,
+      latitudeDelta,
+      longitudeDelta,
     } = this.state;
 
     if (position == null) {
@@ -110,8 +114,8 @@ export default class MapComponent extends Component {
           calloutOffset={{ x: -8, y: 28 }}
           calloutAnchor={{ x: 0.5, y: 0.4 }}
           coordinate={{
-            latitude: photo.location[0] + (Math.random() - 0.5) * 0.001, // randomize
-            longitude: photo.location[1] + (Math.random() - 0.5) * 0.001, // randomize
+            latitude: photo.location[0],
+            longitude: photo.location[1],
           }}>
           <MapView.Callout
             tooltip
@@ -131,11 +135,27 @@ export default class MapComponent extends Component {
       <View style={styles.container}>
         <MapView
           style={styles.map}
-          region={{
+          onRegionChangeComplete={
+            position => {
+              const {
+                latitudeDelta,
+                longitudeDelta,
+              } = position;
+              const userPosition = this.state.position;
+              userPosition.latitude = position.latitude;
+              userPosition.longitude = position.longitude;
+              this.setState({
+                position: userPosition,
+                latitudeDelta,
+                longitudeDelta,
+              });
+            }
+          }
+          initialRegion={{
            latitude,
            longitude,
-           latitudeDelta: MAP_DELTA,
-           longitudeDelta: MAP_DELTA,
+           latitudeDelta,
+           longitudeDelta,
           }}>
           <MapView.Circle
             center={{latitude, longitude}}

@@ -44,8 +44,8 @@ export default class EditComponent extends Component {
     this.setState({busy: true});
     DataManager.postNewPhoto(
       this.props.baseImage,
-      this.props.userPosition.coords.latitude,
-      this.props.userPosition.coords.longitude,
+      this.props.userPosition.coords.latitude + (Math.random() - 0.5) * 0.001,
+      this.props.userPosition.coords.longitude + (Math.random() - 0.5) * 0.001,
       this.state.expiryTime,
     ).then(() => {
       this.setState({busy: false});
