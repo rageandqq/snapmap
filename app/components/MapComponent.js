@@ -130,7 +130,6 @@ export default class MapComponent extends Component {
       )
     }
 
-    // TODO (rageandqq): fix MAP_DELTA forcing a zoom out on re-render
     return (
       <View style={styles.container}>
         <MapView
@@ -160,12 +159,13 @@ export default class MapComponent extends Component {
           <MapView.Circle
             center={{latitude, longitude}}
             radius={RADIUS}
-            fillColor="rgba(0, 0, 100, 0.03)"
-            strokeColor="rgba(0,0,0,0.3)"
+            fillColor='rgba(0, 0, 100, 0.03)'
+            strokeColor='rgba(0,0,0,0.3)'
           />
          <MapView.Marker
             coordinate={{latitude, longitude}}
             title={'My Location'}
+            pinColor={'#0000dd'}
             description={'Where I currently am.'}
           />
           {photos}
@@ -175,7 +175,7 @@ export default class MapComponent extends Component {
           style={styles.button}
           onPress={this._handlePress.bind(this)}>
           <Text style={styles.cameraButtonText}>
-            <Emoji name="camera"/>
+            <Emoji name='camera'/>
           </Text>
         </Button>
      </View>
