@@ -27,7 +27,7 @@ export default class PhotoViewComponent extends Component {
         <View style={styles.textContainer}>
           <Text
             style={styles.expiryStyle}>
-            Expires {moment().to(this.props.title)}
+            Expires {moment().to(this.props.expiry)}
           </Text>
         </View>
       </View>
