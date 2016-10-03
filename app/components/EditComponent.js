@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import Button from 'react-native-button';
+import DataManager from '../data/DataManager';
 import ModalPicker from 'react-native-modal-picker'
 
 const IMAGE_EXPIRATION_LIMIT = 24; // hour
@@ -34,6 +35,7 @@ export default class EditComponent extends Component {
 
   _onAccept = () => {
     // TODO (rageandqq): something useful
+    DataManager.postNewPhoto(this.props.baseImage, 37.785834, -122.406417);
   }
 
   render() {
