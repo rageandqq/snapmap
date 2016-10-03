@@ -16,28 +16,25 @@ const firebaseDatabase = firebase.database(firebaseApp);
 const firebaseStorage = firebase.storage(firebaseApp);
 
 const uploadPhoto = (key, photo) => {
-  console.log('Uploading photo with key', key);
   const rnfbURI = RNFetchBlob.wrap(photo);
   return Blob.build(rnfbURI, { type: 'image/png' })
   .then((blob) => {
-    console.log('Using blob', blob)
     return firebaseStorage.ref().child(`photos/${key}`).put(blob, { contentType: 'image/png'})
     .then(snapshot => {
-      console.log('Uploaded', snapshot);
+      console.log('Uploaded photo to Firebase Storage', snapshot);
     })
     .catch(err => {
       // TODO: Proper error handling
-      console.log(err);
+      console.error(err);
       return Promise.reject(err);
     });
   });
 }
 
-class DataManager {
+export default {
 
   // Post a new photo to a certain location
-  postNewPhoto = (photo, lat, lon, expiresIn = 24) => {
-    console.log('Posting photo', photo, lat, lon);
+  postNewPhoto: (photo, lat, lon, expiresIn = 24) => {
 
     const expiryDate = new Date(new Date().getTime() + (expiresIn * 60 * 60 * 1000)).getTime();
 
@@ -57,11 +54,11 @@ class DataManager {
       });
       return result;
     });
-  };
+  },
 
   // Get photos that are near a certain location.
   // Can be called regularly at a set time interval.
-  getNearbyPhotos = (lat, lon) => {
+  getNearbyPhotos: (lat, lon) => {
     return firebaseDatabase
     .ref('/photos')
     .orderByChild('expiryDate')
@@ -85,14 +82,10 @@ class DataManager {
         });
       });
 
-      // console.log('Query', result);
-
       return Promise.all(promises)
       .then(() => {
         return result;
       });
     });
-  };
-}
-const dataManager = new DataManager();
-export default dataManager;
+  },
+};
