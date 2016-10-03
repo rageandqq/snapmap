@@ -8,7 +8,7 @@ Walk around and see photos dropped by other people in the area!
 
 ## Installation
 
-- clone the repo
+- Clone the repo
 - Install required dependencies with `npm i`
 - Use `react-native run-android` to install the android app to your device
 - Use `react-native run-ios` to run the iOS app in a simulator, or `Xcode` to install to a physical device
