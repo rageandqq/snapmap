@@ -13,7 +13,7 @@ import Button from 'react-native-button';
 export default class PhotoViewComponent extends Component {
 
   constructor(props) {
-      super(props);
+    super(props);
   }
 
   render() {
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   baseImage: {
-    height: Dimensions.get('window').height,
-    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height / 2,
+    width: Dimensions.get('window').width / 2,
   },
 });

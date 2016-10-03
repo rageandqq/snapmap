@@ -14,6 +14,8 @@ import MapView from 'react-native-maps';
 import DataManager from '../data/DataManager';
 import Spinner from 'react-native-loading-spinner-overlay';
 
+import PhotoViewComponent from './PhotoViewComponent';
+
 const RADIUS = 500; // metres(?)
 const REFRESH_INTERVAL = 30000; // 30 seconds
 const MAP_DELTA = 0.0150;
@@ -105,16 +107,26 @@ export default class MapComponent extends Component {
       photos.push(
         <MapView.Marker
           key={photo.key}
+          calloutOffset={{ x: -8, y: 28 }}
+          calloutAnchor={{ x: 0.5, y: 0.4 }}
           coordinate={{
             latitude: photo.location[0] + (Math.random() - 0.5) * 0.001, // randomize
             longitude: photo.location[1] + (Math.random() - 0.5) * 0.001, // randomize
-          }}
-          title={`Photo: ${photo.key}`}
-          description={`Expires at ${photo.expiryDate}`}
-        />
+          }}>
+          <MapView.Callout
+            tooltip
+            onPress={() => { }}
+            style={styles.customView}>
+            <PhotoViewComponent
+              title={`Exipres at ${photo.expiryDate}`}
+              baseURI={photo.url}/>
+          </MapView.Callout>
+        </MapView.Marker>
+
       )
     }
 
+    // TODO (rageandqq): fix MAP_DELTA forcing a zoom out on re-render
     return (
       <View style={styles.container}>
         <MapView
@@ -152,11 +164,11 @@ export default class MapComponent extends Component {
 }
 
 const absoluteFill = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
 };
 
 const styles = StyleSheet.create({
@@ -164,6 +176,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     ...absoluteFill,
+  },
+  customView: {
+    width: 140,
+    height: 100,
   },
   cameraButtonText: {
     fontSize: 50,
