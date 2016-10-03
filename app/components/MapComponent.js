@@ -11,14 +11,19 @@ import Button from 'react-native-button';
 import Emoji from 'react-native-emoji';
 import MapView from 'react-native-maps';
 import { Actions } from 'react-native-router-flux';
+import DataManager from '../data/DataManager';
+
+const REFRESH_INTERVAL = 1000; // TODO: Increase to 30 or 60 seconds
 
 export default class MapComponent extends Component {
 
   state = {
     position: null,
+    photos: {},
   };
 
   watchID: ?number = null;
+  timeout = null;
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
@@ -33,6 +38,24 @@ export default class MapComponent extends Component {
       const position = JSON.stringify(pos);
       this.setState({position});
     });
+    this._initializeScanner();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timeout);
+  }
+
+  _initializeScanner() {
+    this.timeout = setInterval(() => {
+      const { coords } = JSON.parse(this.state.position);
+      const { latitude, longitude } = coords;
+      DataManager.getNearbyPhotos(latitude, longitude).then((photos) => {
+        this.setState({
+          photos,
+        });
+        // console.log('Setting state.photos', photos);
+      });
+    }, REFRESH_INTERVAL);
   }
 
   _handlePress(): void {
