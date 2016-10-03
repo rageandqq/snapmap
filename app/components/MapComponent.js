@@ -13,6 +13,8 @@ import Emoji from 'react-native-emoji';
 import MapView from 'react-native-maps';
 import Spinner from 'react-native-loading-spinner-overlay';
 
+const RADIUS = 500;
+
 export default class MapComponent extends Component {
 
   state = {
@@ -64,9 +66,15 @@ export default class MapComponent extends Component {
           region={{
            latitude,
            longitude,
-           latitudeDelta: 0.0922,
-           longitudeDelta: 0.0421,
+           latitudeDelta: 0.0150,
+           longitudeDelta: 0.0150,
           }}>
+          <MapView.Circle
+            center={{latitude, longitude}}
+            radius={RADIUS}
+            fillColor="rgba(0, 0, 100, 0.03)"
+            strokeColor="rgba(0,0,0,0.3)"
+          />
          <MapView.Marker
             coordinate={{latitude, longitude}}
             title={'My Location'}
@@ -86,25 +94,25 @@ export default class MapComponent extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
+const absoluteFill = {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
+};
+
+const styles = StyleSheet.create({
+  container: {
     justifyContent: 'flex-end',
     alignItems: 'center',
+    ...absoluteFill,
   },
   cameraButtonText: {
     fontSize: 50,
   },
   map: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    ...absoluteFill,
   },
   button: {
     color: 'white',
