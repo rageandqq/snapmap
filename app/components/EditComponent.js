@@ -36,7 +36,6 @@ export default class EditComponent extends Component {
   _onAccept = () => {
     // TODO (rageandqq): something useful
     DataManager.postNewPhoto(this.props.baseImage, 37.785834, -122.406417);
-    // console.log(DataManager.getNearbyPhotos(80, 80));
   }
 
   render() {
