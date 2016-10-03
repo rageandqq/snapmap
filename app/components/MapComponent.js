@@ -13,7 +13,7 @@ import MapView from 'react-native-maps';
 import { Actions } from 'react-native-router-flux';
 import DataManager from '../data/DataManager';
 
-const REFRESH_INTERVAL = 1000; // TODO: Increase to 30 or 60 seconds
+const REFRESH_INTERVAL = 30000; // 30 seconds
 
 export default class MapComponent extends Component {
 
@@ -24,12 +24,16 @@ export default class MapComponent extends Component {
 
   watchID: ?number = null;
   timeout = null;
+  initializedScanner = false;
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       pos => {
         const position = JSON.stringify(pos);
         this.setState({position});
+
+        this.position = position;
+        this._initializeScanner();
       },
       (error) => alert(JSON.stringify(error)), // TODO (@rageandqq): Better error handling?
       {timeout: 20000, maximumAge: 1000},
@@ -37,8 +41,10 @@ export default class MapComponent extends Component {
     this.watchID = navigator.geolocation.watchPosition(pos => {
       const position = JSON.stringify(pos);
       this.setState({position});
+
+      this.position = position;
+      this._initializeScanner();
     });
-    this._initializeScanner();
   }
 
   componentWillUnmount() {
@@ -46,16 +52,29 @@ export default class MapComponent extends Component {
   }
 
   _initializeScanner() {
+    if (this.initializedScanner) {
+      return;
+    }
+    this.initializedScanner = true;
+    this._scan();
     this.timeout = setInterval(() => {
-      const { coords } = JSON.parse(this.state.position);
-      const { latitude, longitude } = coords;
-      DataManager.getNearbyPhotos(latitude, longitude).then((photos) => {
-        this.setState({
-          photos,
-        });
-        // console.log('Setting state.photos', photos);
-      });
+      this._scan();
     }, REFRESH_INTERVAL);
+  }
+
+  _scan() {
+    if (!this.position) {
+      console.warn('Tried to scan nearby area for photos, but position is null');
+      return;
+    }
+    const { coords } = JSON.parse(this.position);
+    const { latitude, longitude } = coords;
+    DataManager.getNearbyPhotos(latitude, longitude).then((photos) => {
+      this.setState({
+        photos,
+      });
+      console.log('Setting state.photos', photos);
+    });
   }
 
   _handlePress(): void {
