@@ -19,6 +19,7 @@ export default class CameraComponent extends Component {
 
   state = {
     image: null,
+    useRearCamera: true,
   };
 
   _takePicture = () => {
@@ -41,6 +42,12 @@ export default class CameraComponent extends Component {
       });
   }
 
+  _flipCamera = () => {
+    this.setState({
+      useRearCamera: !this.state.useRearCamera,
+    });
+  }
+
   render() {
     if (this.state.image != null) {
       return (
@@ -58,15 +65,27 @@ export default class CameraComponent extends Component {
           }}
           style={styles.camera}
           aspect={Camera.constants.Aspect.fill}
+          type={this.state.useRearCamera ? Camera.constants.Type.back : Camera.constants.Type.front}
           captureTarget={Camera.constants.CaptureTarget.temp}>
-          <Button
-            containerStyle={styles.buttonInfoContainer}
-            style={styles.button}
-            onPress={this._takePicture}>
-            <Text style={styles.cameraButtonText}>
-              <Emoji name="camera_with_flash"/>
-            </Text>
-          </Button>
+          <View
+            style={styles.groupContainer}>
+            <Button
+              containerStyle={styles.buttonContainer}
+              style={styles.button}
+              onPress={this._flipCamera}>
+              <Text style={styles.cameraButtonText}>
+                <Emoji name="arrows_counterclockwise"/>
+              </Text>
+            </Button>
+            <Button
+              containerStyle={styles.buttonContainer}
+              style={styles.button}
+              onPress={this._takePicture}>
+              <Text style={styles.cameraButtonText}>
+                <Emoji name="camera_with_flash"/>
+              </Text>
+            </Button>
+          </View>
         </Camera>
       </View>
     );
@@ -85,9 +104,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   camera: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
   },
@@ -97,10 +113,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   cameraButtonText: {
-    fontSize: 50,
+    fontSize: 40,
   },
-  buttonInfoContainer: {
+  buttonContainer: {
     backgroundColor: 'deepskyblue',
+    ...buttonStyles,
+  },
+  groupContainer: {
+    flexDirection: 'row', // float in center
+    justifyContent: 'center',
+    position: 'absolute', // position this bar at the bottom of the screen
+    right: 0,
+    left: 0,
+    bottom: 20,
     ...buttonStyles,
   },
 });
