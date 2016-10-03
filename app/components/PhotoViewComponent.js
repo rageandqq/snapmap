@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import Button from 'react-native-button';
+import moment from 'moment';
 
 export default class PhotoViewComponent extends Component {
 
@@ -23,17 +24,16 @@ export default class PhotoViewComponent extends Component {
         <Image
           style={styles.baseImage}
           source={{uri: this.props.baseURI}}/>
+        <View style={styles.textContainer}>
+          <Text
+            style={styles.expiryStyle}>
+            Expires {moment().to(this.props.expiry)}
+          </Text>
+        </View>
       </View>
     );
   }
 }
-
-const buttonStyles = {
-  padding: 10,
-  margin: 20,
-  overflow: 'hidden',
-  borderRadius: 10,
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -42,5 +42,19 @@ const styles = StyleSheet.create({
   baseImage: {
     height: Dimensions.get('window').height / 2,
     width: Dimensions.get('window').width / 2,
+  },
+  textContainer: {
+    width: Dimensions.get('window').width / 2,
+    backgroundColor: 'black',
+    position: 'absolute', // position this bar at the bottom of the screen
+    top: 0,
+    right: 0,
+    left:0,
+    opacity: 0.5,
+  },
+  expiryStyle: {
+    fontSize: 16.5,
+    color:'white',
+    textAlign: 'center',
   },
 });

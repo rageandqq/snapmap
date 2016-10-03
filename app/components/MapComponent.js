@@ -122,7 +122,7 @@ export default class MapComponent extends Component {
             onPress={() => { }}
             style={styles.customView}>
             <PhotoViewComponent
-              title={`Exipres at ${photo.expiryDate}`}
+              expiry={photo.expiryDate}
               baseURI={photo.url}/>
           </MapView.Callout>
         </MapView.Marker>
