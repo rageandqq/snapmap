@@ -54,6 +54,7 @@ export default class MapComponent extends Component {
 
   componentWillUnmount() {
     clearInterval(this.timeout);
+    navigator.geolocation.clearWatch(this.watchID);
   }
 
   _initializeScanner() {
