@@ -98,6 +98,23 @@ export default class MapComponent extends Component {
 
     const { coords } = position;
     const { latitude, longitude } = coords;
+
+    const photos = [];
+
+    for (let photo of this.state.photos) {
+      photos.push(
+        <MapView.Marker
+          key={photo.key}
+          coordinate={{
+            latitude: photo.location[0] + (Math.random() - 0.5) * 0.001, // randomize
+            longitude: photo.location[1] + (Math.random() - 0.5) * 0.001, // randomize
+          }}
+          title={`Photo: ${photo.key}`}
+          description={`Expires at ${photo.expiryDate}`}
+        />
+      )
+    }
+
     return (
       <View style={styles.container}>
         <MapView
@@ -119,6 +136,7 @@ export default class MapComponent extends Component {
             title={'My Location'}
             description={'Where I currently am.'}
           />
+          {photos}
         </MapView>
         <Button
           containerStyle={styles.buttonContainer}
